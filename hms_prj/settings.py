@@ -209,7 +209,7 @@ JAZZMIN_UI_TWEAKS = {
 
 # LOGOUT_REDIRECT_URL = "userauths:sign-in"
 
-# AUTH_USER_MODEL = 'userauths.User'
+AUTH_USER_MODEL = 'userauths.User'
 
 
 # Bootstrap Configs
