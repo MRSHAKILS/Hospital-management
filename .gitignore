@@ -1,0 +1,7 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+ENV/
+*.env
