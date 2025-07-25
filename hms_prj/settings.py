@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'base'
-    'doctor'
-    'patient'
+    'base',
+    'doctor',
+    'patient',
     'userauths'
 ]
 
@@ -132,6 +134,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_URL = '/'
 
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_URL = '/'
+
+# AUTH_USER_MODEL = ""
+
+MESSAGES_TAGS = {
+    messages.ERROR: 'danger'
+}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACKS = "bootstrap5"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
