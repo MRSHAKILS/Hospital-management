@@ -33,8 +33,8 @@ class Notification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = "Notifixation"
+        verbose_name_plural = "Notification"
 
     def __str__(self):
-        return f"Dr {self.full_name} Notification"
+        return f"Dr {self.doctor.ull_name} Notification"
 
