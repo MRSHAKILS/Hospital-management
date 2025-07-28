@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import messages
 
-# Create your views here.
+def register_view(request):
+    if request.user.is_authenticated:
+        messages.success(request, "You are already logged in.")
+        return redirect('/')
+
+    form = None
