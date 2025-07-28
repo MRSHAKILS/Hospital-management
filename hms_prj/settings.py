@@ -140,7 +140,7 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_URL = '/'
 
-# AUTH_USER_MODEL = ""
+AUTH_USER_MODEL = "userauths.User"
 
 MESSAGES_TAGS = {
     messages.ERROR: 'danger'

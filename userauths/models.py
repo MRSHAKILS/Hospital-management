@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    email = models.EmailField(unique==True)
+    email = models.EmailField(unique=True)
     username = models.CharField(max_length=100, null=True, blank=True)
 
     USERNAME_FIELD = "email"
@@ -10,7 +10,7 @@ class User(AbstractUser):
     
 
     def __str__(self):
-        return slef.uesrname
+        return self.username
     
     def save(self, *args, **kwargs):
         email_username, _ = self.email.split("@")

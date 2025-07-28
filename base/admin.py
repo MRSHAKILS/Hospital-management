@@ -39,7 +39,7 @@ class LabTestAdmin(admin.ModelAdmin):
     list_display = ['appointment', 'test_name']
 
 class PrescriptionAdmin(admin.ModelAdmin):
-    list_display = ['appointment', 'medication']
+    list_display = ['appointment', 'medications']
 
 class BillingAdmin(admin.ModelAdmin):
     list_display = ['patient', 'total', 'status', 'date']

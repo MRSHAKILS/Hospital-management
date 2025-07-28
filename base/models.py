@@ -19,9 +19,9 @@ class Service(models.Model):
 
 class Appointment(models.Model):
     STATUS = [
-        ('Scheduled', 'Scheduled')
-        ('Completed', 'Completed')
-        ('Pending', 'Pending')
+        ('Scheduled', 'Scheduled'),
+        ('Completed', 'Completed'),
+        ('Pending', 'Pending'),
         ('Cancelled', 'Cancelled')
     ]
 
