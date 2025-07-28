@@ -10,7 +10,7 @@ class Service(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
-    available_doctor = models.ManyToManyField(doctor_models.Doctor, blank=True)
+    # available_doctor = models.ManyToManyField(doctor_models.Doctor, blank=True)
 
 
     def __str__(self):
@@ -26,16 +26,16 @@ class Appointment(models.Model):
     ]
 
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True, related_name='service_appointments')
-    doctor = models.ForeignKey(doctor_models.Doctor, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctor_appointments')
-    patient = models.ForeignKey(patient_models.Patient, on_delete=models.SET_NULL, null=True, blank=True, related_name='patient_appointments')
+    # doctor = models.ForeignKey(doctor_models.Doctor, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctor_appointments')
+    # patient = models.ForeignKey(patient_models.Patient, on_delete=models.SET_NULL, null=True, blank=True, related_name='patient_appointments')
     appointment_date = models.DateTimeField(null=True, blank=True)
     issues = models.TextField(blank=True, null=True)
     symptoms = models.TextField(blank=True, null=True)
     appointment_id = ShortUUIDField(length=6, max_length=10, alphabet="1234567890")
     status = models.CharField(max_length=120, choices=STATUS)
 
-    def __str__(self):
-        return f"{self.patient.full_name} with {self.doctor.full_name}"
+    # def __str__(self):
+    #     return f"{self.patient.full_name} with {self.doctor.full_name}"
 
 
 
@@ -44,8 +44,8 @@ class MedicalRecord(models.Model):
     diagnosis = models.TextField()
     treatment = models.TextField()
 
-    def __str__(self):
-        return f"Medical Record for {self.appointment.patient.full_name}"
+    # def __str__(self):
+    #     return f"Medical Record for {self.appointment.patient.full_name}"
 
 
 class LabTest(models.Model):
@@ -62,12 +62,12 @@ class Prescription(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     medications = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return f"Prescription for {self.appointment.patient.full_name}"
+    # def __str__(self):
+    #     return f"Prescription for {self.appointment.patient.full_name}"
     
 
 class Billing(models.Model):
-    patient = models.ForeignKey(patient_models.Patient, on_delete=models.CASCADE, related_name='billing_records')
+    # patient = models.ForeignKey(patient_models.Patient, on_delete=models.CASCADE, related_name='billing_records')
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name='billing_records')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     tax = models.DecimalField(max_digits=10, decimal_places=2)
@@ -77,5 +77,5 @@ class Billing(models.Model):
 
     date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"Billing for {self.patient.full_name} - {self.total}"
+    # def __str__(self):
+    #     return f"Billing for {self.patient.full_name} - {self.total}"
