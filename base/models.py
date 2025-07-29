@@ -67,7 +67,7 @@ class Prescription(models.Model):
     
 
 class Billing(models.Model):
-    patient = models.ForeignKey(patient_models.Patient, on_delete=models.CASCADE, related_name='billing_records')
+    patient = models.ForeignKey(patient_models.Patient, on_delete=models.CASCADE, null=True, blank=True, related_name='billing_records') #null and blank must be removed
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name='billing_records')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     tax = models.DecimalField(max_digits=10, decimal_places=2)
