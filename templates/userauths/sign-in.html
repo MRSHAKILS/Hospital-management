@@ -1,0 +1,49 @@
+{% extends 'partials/base.html' %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block content %}
+
+<section class="container d-flex flex-column mt-5">
+  <div class="row align-items-center justify-content-center g-0 h-lg-100 py-8">
+    <div class="col-lg-5 col-md-8 py-8 py-xl-0">
+      <div class="card shadow">
+        <div class="card-body p-6">
+          <div class="mb-4">
+            <h1 class="mb-1 fw-bold">Sign in</h1>
+            <span>
+              Don’t have an account?
+              <a href="{% url 'userauths:sign-up' %}" class="ms-1"> Sign up </a>
+            </span>
+          </div>
+          <!-- Form -->
+          <form class="needs-validation" method="POST">
+            {% csrf_token %}
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="email" class="form-label"> Email Address </label>
+              {{form.email}}
+              <div class="invalid-feedback">Please enter valid username.</div>
+            </div>
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label"> Password </label>
+              {{form.password}}
+              <div class="invalid-feedback">Please enter valid password.</div>
+            </div>
+
+            <div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                  Sign in <i class="fas fa-sign-in-alt ms-2"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
