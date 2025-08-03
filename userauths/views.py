@@ -45,3 +45,4 @@ def register_view(request):
     return render(request, 'userauths/signup.html', context)
 
 
+
