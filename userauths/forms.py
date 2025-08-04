@@ -2,11 +2,18 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
+
+USER_TYPE = [
+    ("Doctor", "Doctor"),
+    ("Patient", "Patient"),
+]
+
 class UserRegisterForm(UserCreationForm):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'John Doe'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'johndoe@gmail.com'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))
+    user_type = forms.ChoiceField(choices=USER_TYPE, widget=forms.Select(attrs={"class": "form-select"}))
 
 
     class Meta:

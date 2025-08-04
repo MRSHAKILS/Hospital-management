@@ -90,17 +90,18 @@
                                 </span>
                             </div>
                             <!-- Form -->
-                            <form class="needs-validation" novalidate>
+                            <form class="needs-validation" method="POST">
+                                {% csrf_token %}
                                 <!-- Username -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label"> Email Address </label>
-                                    <input type="email" id="email" class="form-control" name="email" placeholder="johndoe@gmail.com" required />
+                                    {{form.email}}
                                     <div class="invalid-feedback">Please enter valid username.</div>
                                 </div>
                                 <!-- Password -->
                                 <div class="mb-3">
                                     <label for="password" class="form-label"> Password </label>
-                                    <input type="password" id="password" class="form-control" name="password" placeholder="**************" required />
+                                    {{form.password}}
                                     <div class="invalid-feedback">Please enter valid password.</div>
                                 </div>
                                 <!-- Checkbox -->

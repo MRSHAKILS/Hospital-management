@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from userauths import forms as userauth_forms
 from doctor import models as doctor_models
 from patient import models as patient_models
-from userauths import models as userauth_models
+from userauths import models as userauths_models
 
 
 def register_view(request):
@@ -38,10 +38,13 @@ def register_view(request):
                 else:
                     patient_models.Patient.objects.create(user=user, full_name=full_name, email=email)
 
-                messages.success(request, "Welcome, you have successfully signed up.")
+                messages.success(request, "Account created successfully")
                 return redirect('/')
             else:
-                messages.error(request, "Invalid credentials. Please try again.")
+                messages.error(request, "Authentication failed. Please try again!")
+
+    else:
+        form = userauth_forms.UserRegisterForm()
 
 
     context = {
@@ -62,14 +65,32 @@ def login_view(request):
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
 
-            # try:
-            #     user_INSTANCE = userauth_models.User.objects.get(email=email, is_active=True)
-            #     user_authenticate = authenticate(request, email=email, password=password)
-    #             if user_authenticate is not None:
-    #                 login(request, user_authenticate)
-    #                 messages.success(request, "Account created  successfully")
-    #                 next_url = request.GET.get('next', '/')
-    #                 return redirect(next_url)
+            try:
+                user_instance = userauths_models.User.objects.get(email=email, is_active=True)
+                user_authenticate = authenticate(request, email=email, password=password)
 
-    #         except:
-    #             pass
+                if user_instance is not None:
+                    login(request, user_authenticate)
+                    messages.success(request, "Login successful.")
+                    next_url = request.GET.get("next", "/")
+                    return redirect(next_url) 
+                else:
+                    messages.error(request, "Username or password does not exist. Please try again!") 
+            except:
+                messages.error(request, "User does not exist!") 
+
+    else:
+        form = userauth_forms.LoginForm()
+    
+    context = {
+        "form": form
+    }
+
+    return render(request, 'userauths/sign-in.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+
+    return redirect('userauths:sign-in')
