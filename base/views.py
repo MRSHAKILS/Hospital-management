@@ -15,4 +15,4 @@ def service_detail(request, service_id):
         context = {
             "service": service
         }
-        return render(request, "base/service-detail.html", context)
+        return render(request, "base/service_detail.html", context)
