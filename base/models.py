@@ -40,7 +40,13 @@ class Appointment(models.Model):
     status = models.CharField(max_length=120, choices=STATUS)
 
     def __str__(self):
-        return f"{self.patient.full_name} with {self.doctor.full_name}"
+        try:
+            patient_name = getattr(
+                self.patient, 'full_name', 'Unknown Patient')
+            doctor_name = getattr(self.doctor, 'full_name', 'Unknown Doctor')
+            return f"{patient_name} with Dr. {doctor_name}"
+        except:
+            return f"Appointment #{self.pk or 'New'}"
 
 
 class MedicalRecord(models.Model):
@@ -85,4 +91,9 @@ class Billing(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Billing for {self.patient.full_name} - Total: {self.total}"
+        try:
+            patient_name = self.patient.full_name if self.patient else "No Patient"
+            total = self.total if self.total else "0.00"
+            return f"Billing #{self.billing_id}: {patient_name} - ${total}"
+        except AttributeError:
+            return f"Billing #{self.billing_id or 'New'}"

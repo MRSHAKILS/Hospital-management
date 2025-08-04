@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from base import models as base_models
 from doctor import models as doctor_models
 from patient import models as patient_models
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+import json
 
 
 def index(request):
@@ -86,3 +90,78 @@ def checkout(request, billing_id):
         # "paypal_client_id": settings.PAYPAL_CLIENT_ID,
     }
     return render(request, "base/checkout.html", context)
+
+
+# New Pay Now view - bypasses actual payment processing
+@csrf_exempt
+def pay_now(request, billing_id):
+    """
+    Simple payment processing that bypasses actual payment gateways
+    """
+    if request.method == 'POST':
+        try:
+            billing = base_models.Billing.objects.get(billing_id=billing_id)
+
+            # Check if billing is already paid
+            if billing.status == "Paid":
+                return JsonResponse({
+                    "success": False,
+                    "message": "Payment already processed",
+                    "billing_id": billing_id
+                })
+
+            # Simulate payment processing (you can add validation logic here)
+            # For now, we'll assume payment is always successful
+
+            # Update billing status
+            billing.status = "Paid"
+            billing.save()
+
+            # Update appointment status
+            billing.appointment.status = "Completed"
+            billing.appointment.save()
+
+            # Create notifications
+            doctor_models.Notification.objects.create(
+                doctor=billing.appointment.doctor,
+                appointment=billing.appointment,
+                type="New Appointment"
+            )
+
+            patient_models.Notification.objects.create(
+                patient=billing.appointment.patient,
+                appointment=billing.appointment,
+                type="Appointment Scheduled"
+            )
+
+            return JsonResponse({
+                "success": True,
+                "message": "Payment processed successfully",
+                "billing_id": billing_id
+            })
+
+        except base_models.Billing.DoesNotExist:
+            return JsonResponse({
+                "success": False,
+                "message": "Billing record not found",
+                "billing_id": billing_id
+            })
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "message": f"Payment processing failed: {str(e)}",
+                "billing_id": billing_id
+            })
+
+    return JsonResponse({"success": False, "message": "Invalid request method"})
+
+
+@login_required
+def payment_status(request, billing_id):
+    billing = base_models.Billing.objects.get(billing_id=billing_id)
+    payment_status = request.GET.get("payment_status")
+    context = {
+        "billing": billing,
+        "payment_status": payment_status,
+    }
+    return render(request, "base/payment_status.html", context)
