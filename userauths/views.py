@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+
 from userauths import forms as userauth_forms
 from doctor import models as doctor_models
 from patient import models as patient_models
@@ -11,6 +12,8 @@ def register_view(request):
     if request.user.is_authenticated:
         messages.success(request, "You are already logged in.")
         return redirect('/')
+    
+    form = userauth_forms.UserRegisterForm(request.POST or None)
     
     
     if request.method == "POST":
@@ -45,28 +48,28 @@ def register_view(request):
         "form": form
     }
 
-    return render(request, 'userauths/signup.html', context)
+    return render(request, 'userauths/sign-up.html', context)
 
 def login_view(request):
     if request.user.is_authenticated:
         messages.success(request, "You are already logged in.")
         return redirect('/')
     
+    
     if request.method == "POST":
         form = userauth_forms.LoginForm(request.POST or None)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            
-            try:
-                user_INSTANCE = userauth_models.User.objects.get(email=email, is_active=True)
-                user_authenticate = authenticate(request, email=email, password=password)
-                if user_authenticate is not None:
-                    login(request, user_authenticate)
-                    messages.success(request, "Account created  successfully")
-                    next_url = request.GET.get('next', '/') 
-                else:
-                    messages.error(request, "Invalid credentials. Please try again.")
-                    
-            except Exception as e:
-                
+        if form.is_valid(): 
+            email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
+
+            # try:
+            #     user_INSTANCE = userauth_models.User.objects.get(email=email, is_active=True)
+            #     user_authenticate = authenticate(request, email=email, password=password)
+    #             if user_authenticate is not None:
+    #                 login(request, user_authenticate)
+    #                 messages.success(request, "Account created  successfully")
+    #                 next_url = request.GET.get('next', '/')
+    #                 return redirect(next_url)
+
+    #         except:
+    #             pass
