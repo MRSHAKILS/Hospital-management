@@ -6,4 +6,4 @@ Project Update:
 Whole project structure has been made
 All Database, schema and tables are created (Models.py in every app)
 Full admin UI is done
-Also, Admin can sign in successfully
+   
