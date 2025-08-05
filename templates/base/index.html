@@ -9,8 +9,8 @@
                     </h1>
                     <p class="fs-4 mt-4">Every patient is different, every smile is unique, We prioritize safety with health checks, contactless check-in, enhanced PPE, and more.</p>
                     <div class="d-flex align-items-center gap-2 mt-5">
-                        <button class="btn btn-primary btn-lg">Create Account <i class="fas fa-user-plus ms-1"></i></button>
-                        <button class="btn btn-outline-primary btn-lg">Book Appointment <i class="fas fa-arrow-right ms-2"></i></button>
+                        <button class="btn btn-primary btn-lg"><a href="{% url 'userauths:sign-up' %}" class="text-white text-decoration-none">Create Account <i class="fas fa-user-plus ms-1"></i></a></button>
+                        <button class="btn btn-outline-primary btn-lg"><a href="#" class="text-decoration-none">Book Appointment <i class="fas fa-arrow-right ms-2"></i></a></button>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
@@ -55,9 +55,9 @@
                     <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus et voluptate omnis accusantium. Tenetur explicabo vero quo dolore. Repudiandae itaque accusantium dolor ab. Blanditiis esse tempore ut ad accusantium nihil?</p>
 
                     <div class="d-flex align-items-center gap-2 mt-5">
-                        <button class="btn btn-outline-primary"><i class="fas fa-video ms-1"></i> View Services</button>
-                        <button class="btn btn-primary">Create Account <i class="fas fa-user-plus ms-1"></i></button>
-                        <button class="btn btn-primary">Learn More <i class="fas fa-arrow-right ms-1"></i></button>
+                        <button class="btn btn-outline-primary"><i class="fas fa-video ms-1"></i>View Services</button>
+                        <button class="btn btn-primary" ><a href="{% url 'userauths:sign-up' %}" class="text-white text-decoration-none">Create Account <i class="fas fa-user-plus ms-1"></i></a></button>
+                        <button class="btn btn-primary"><a href="#" class="text-white text-decoration-none">Learn More <i class="fas fa-arrow-right ms-1"></i></a></button>
                     </div>
                 </div>
                 <div class="col-lg-6">
