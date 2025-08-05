@@ -21,7 +21,7 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, reiciendis.</p>
             </div>
             <div class="">
-                {% for d in service.available_doctor.all %}
+        {% for d in service.available_doctor.all %}
                     <div class="p-1 mb-4 shadow d-flex align-items-center">
                         <a href="course-detail.html">
                             <img src="{{ d.image.url }}" alt="course" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px" class="card-img-top" />
@@ -41,7 +41,7 @@
                                 </div>
 
                                 <div>
-                                    <a href="book-appointment.html" class="btn btn-primary me-4">Book Now <i class="fas fa-arrow-right ms-2"></i></a>
+                                    <a href="{% url 'base:book_appointment' service.id d.id %}" class="btn btn-primary me-4">Book Now <i class="fas fa-arrow-right ms-2"></i></a>
                                 </div>
                             </div>
                         </div>

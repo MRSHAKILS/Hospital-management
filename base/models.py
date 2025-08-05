@@ -73,7 +73,7 @@ class Billing(models.Model):
     tax = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=120, choices=[('Paid', 'Paid'), ('Unpaid', 'Unpaid')])
-    Billing_id = ShortUUIDField(length=6, max_length=10, alphabet="1234567890")
+    billing_id = ShortUUIDField(length=6, max_length=10, alphabet="1234567890")
 
     date = models.DateTimeField(auto_now_add=True)
 
