@@ -131,22 +131,23 @@ def mark_noti_seen(request, id):
 @login_required
 def profile(request):
     patient = patient_models.Patient.objects.get(user=request.user)
-    formatted_next_available_appointment_date = patient.next_available_appointment_date.strftime('%Y-%m-%d')
+    formatted_dob = patient.dob.strftime('%Y-%m-%d')
 
     if request.method == "POST":
         full_name = request.POST.get("full_name")
         image = request.FILES.get("image")
         mobile = request.POST.get("mobile")
-        country = request.POST.get("country")
-        bio = request.POST.get("bio")
-        years_of_experience = request.POST.get("years_of_experience")
-        next_available_appointment_date = request.POST.get("next_available_appointment_date")
+        address = request.POST.get("address")
+        gender = request.POST.get("gender")
+        dob = request.POST.get("dob")
+        blood_group = request.POST.get("blood_group")
 
         patient.full_name = full_name
         patient.mobile = mobile
-        patient.country = country
-        patient.bio = bio
-        patient.years_of_experience = years_of_experience
+        patient.address = address
+        patient.gender = gender
+        patient.dob = dob
+        patient.blood_group = blood_group
         
 
         if image!= None:
@@ -159,7 +160,7 @@ def profile(request):
     
     context = {
         "patient": patient,
-        "formatted_next_available_appointment_date": formatted_next_available_appointment_date,
+        "formatted_dob": formatted_dob,
     }
 
     return render(request, "patient/profile.html", context)
