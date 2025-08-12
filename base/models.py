@@ -13,6 +13,12 @@ class Service(models.Model):
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     available_doctors = models.ManyToManyField(
         doctor_models.Doctor, blank=True)
+    meetlink = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text='Google Meet URL (e.g. https://meet.google.com/abc-defg-hij)'
+    )
 
     def __str__(self):
         return f"{self.name} - {self.cost}"
