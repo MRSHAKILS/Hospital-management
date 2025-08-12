@@ -24,7 +24,7 @@ urlpatterns = [
     path("", include("base.urls")),
     path("auth/", include("userauths.urls")),
     path("doctor/", include("doctor.urls")),
-    # path("patient/", include("patient.urls")),
+    path("patient/", include("patient.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
