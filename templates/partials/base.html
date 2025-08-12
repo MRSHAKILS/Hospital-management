@@ -125,19 +125,23 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="">Dashboard</a>
+                    <a
+                      class="dropdown-item"
+                      href="{% url 'patient:dashboard' %}"
+                      >Dashboard</a
+                    >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="">Appointments</a>
+                    <a class="dropdown-item" href="{% url 'patient:appointments' %}">Appointments</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="">Payments</a>
+                    <a class="dropdown-item" href="{% url 'patient:payments' %}">Payments</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="">Notifications</a>
+                    <a class="dropdown-item" href="{% url 'patient:notifications' %}">Notifications</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="">Profile</a>
+                    <a class="dropdown-item" href="{% url 'patient:profile' %}">Profile</a>
                   </li>
                 </ul>
               </li>

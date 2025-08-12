@@ -6,7 +6,55 @@ from patient import models as patient_models
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 import json
+
+
+def send_appointment_confirmation_email(billing):
+    """
+    Helper function to send appointment confirmation email
+    """
+    try:
+        appointment = billing.appointment
+        patient = appointment.patient
+        
+        # Prepare email context
+        email_context = {
+            'appointment': appointment,
+            'billing': billing,
+            'patient': patient,
+        }
+        
+        # Render email templates
+        html_content = render_to_string('emails/appointment_confirmation.html', email_context)
+        text_content = render_to_string('emails/appointment_confirmation.txt', email_context)
+        
+        # Create email
+        subject = f"Appointment Confirmation - #{appointment.appointment_id} | HMS"
+        from_email = 'HMS Healthcare <noreply@hms.com>'
+        to_email = [patient.email]
+        
+        # Create multipart email
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,
+            from_email=from_email,
+            to=to_email
+        )
+        
+        # Attach HTML version
+        email.attach_alternative(html_content, "text/html")
+        
+        # Send email
+        email.send()
+        
+        print(f"Confirmation email sent successfully to {patient.email}")
+        return True
+        
+    except Exception as e:
+        print(f"Failed to send confirmation email: {str(e)}")
+        return False
 
 
 def index(request):
@@ -134,6 +182,9 @@ def pay_now(request, billing_id):
                 type="Appointment Scheduled"
             )
 
+            # Send confirmation email to patient
+            send_appointment_confirmation_email(billing)
+
             return JsonResponse({
                 "success": True,
                 "message": "Payment processed successfully",
@@ -160,6 +211,11 @@ def pay_now(request, billing_id):
 def payment_status(request, billing_id):
     billing = base_models.Billing.objects.get(billing_id=billing_id)
     payment_status = request.GET.get("payment_status")
+    
+    # Send confirmation email if payment is successful and email hasn't been sent yet
+    if payment_status == "success" and billing.status == "Paid":
+        send_appointment_confirmation_email(billing)
+    
     context = {
         "billing": billing,
         "payment_status": payment_status,
