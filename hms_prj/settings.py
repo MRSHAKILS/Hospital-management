@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'patient',
     'userauths',
 
+    'import_export',
+    'anymail'
+
 
 ]
 
@@ -147,6 +150,29 @@ MESSAGE_TAGS = {
 
 }
 
+
+
+# ANYMAIL = {
+#     "MAILGUN_API_KEY": "3f8275550dfcd956f6bc151edf779977-16bc1610-4df4135d",
+#     "MAILGUN_SENDER_DOMAIN": "sandbox3f8275550dfcd956f6bc151edf779977.mailgun.org"
+# }
+
+# FROM_EMAIL = "shkil.social@gmail.com"
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# # DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+# # SERVER_EMAIL = env('SERVER_EMAIL')
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'asifiqbal93882@gmail.com'
+EMAIL_HOST_PASSWORD = 'liik obsn okmo uvix'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -203,11 +229,11 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 
-# LOGIN_URL = "userauths:sign-in"
+LOGIN_URL = "userauths:sign-in"
 
-# LOGIN_REDIRECT_URL = ""
+LOGIN_REDIRECT_URL = ""
 
-# LOGOUT_REDIRECT_URL = "userauths:sign-in"
+LOGOUT_REDIRECT_URL = "userauths:sign-in"
 
 AUTH_USER_MODEL = 'userauths.User'
 

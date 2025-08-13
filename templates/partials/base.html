@@ -33,7 +33,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand fw-bold fs-3" href="/">HelloDoc.</a>
+        <a class="navbar-brand fw-bold fs-3" href="/">Hello Doc!</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -56,14 +56,14 @@
                 <a
                   class="nav-link dropdown-toggle text-white"
                   href="#"
-                  id="navbarDropdown"
+                  id="servicesDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Services
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
                   {% for s in services %}
                   <li>
                     <a
@@ -76,84 +76,168 @@
                 </ul>
               </li>
 
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle text-white"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  >Doctor Dashboard
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
+              {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                  <!-- Superuser sees both dashboards -->
+                  <li class="nav-item dropdown">
                     <a
-                      class="dropdown-item"
-                      href="{# {% url 'doctor:dashboard' %} #}"
-                      >Dashboard</a
-                    >
+                      class="nav-link dropdown-toggle text-white"
+                      href="#"
+                      id="doctorDashboardDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      >Doctor Dashboard
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="doctorDashboardDropdown">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'doctor:dashboard' %}"
+                          >Dashboard</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'doctor:appointments' %}"
+                          >Appointments</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Payments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Notifications</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Profile</a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
+
+                  <li class="nav-item dropdown">
                     <a
-                      class="dropdown-item"
-                      href="{# {% url 'doctor:appointments' %} #}"
-                      >Appointments</a
-                    >
+                      class="nav-link dropdown-toggle text-white"
+                      href="#"
+                      id="patientDashboardDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      >Patient Dashboard
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="patientDashboardDropdown">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'patient:dashboard' %}"
+                          >Dashboard</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:appointments' %}">Appointments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:payments' %}">Payments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:notifications' %}">Notifications</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:profile' %}">Profile</a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="">Payments</a>
+
+                {% elif request.user.user_type == "Doctor" %}
+                  <!-- Doctor users only see Doctor Dashboard -->
+                  <li class="nav-item dropdown">
+                    <a
+                      class="nav-link dropdown-toggle text-white"
+                      href="#"
+                      id="doctorOnlyDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      >Doctor Dashboard
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="doctorOnlyDropdown">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'doctor:dashboard' %}"
+                          >Dashboard</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'doctor:appointments' %}"
+                          >Appointments</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Payments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Notifications</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="">Profile</a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="">Notifications</a>
+
+                {% elif request.user.user_type == "Patient" %}
+                  <!-- Patient users only see Patient Dashboard -->
+                  <li class="nav-item dropdown">
+                    <a
+                      class="nav-link dropdown-toggle text-white"
+                      href="#"
+                      id="patientOnlyDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      >Patient Dashboard
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="patientOnlyDropdown">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'patient:dashboard' %}"
+                          >Dashboard</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:appointments' %}">Appointments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:payments' %}">Payments</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:notifications' %}">Notifications</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'patient:profile' %}">Profile</a>
+                      </li>
+                    </ul>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="">Profile</a>
-                  </li>
-                </ul>
-              </li>
+                {% endif %}
+              {% endif %}
+              <!-- Non-authenticated users see no dashboards -->
 
               <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle text-white"
                   href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  >Patient Dashboard
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item" href="">Dashboard</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="">Appointments</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="">Payments</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="">Notifications</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="">Profile</a>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle text-white"
-                  href="#"
-                  id="navbarDropdown"
+                  id="pagesDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Pages
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu" aria-labelledby="pagesDropdown">
                   <li>
                     <a class="dropdown-item" href="/pages/about-us.html"
                       >About Us</a
@@ -169,8 +253,29 @@
             </ul>
           </div>
 
-          <div class="d-flex ms-auto">
+          <div class="d-flex ms-auto align-items-center">
             {% if request.user.is_authenticated %}
+            <!-- User type indicator -->
+            <div class="me-3">
+              {% if request.user.is_superuser %}
+                <span class="badge bg-warning text-dark">
+                  <i class="fas fa-crown me-1"></i>Admin
+                </span>
+              {% elif request.user.user_type == "Doctor" %}
+                <span class="badge bg-info">
+                  <i class="fas fa-user-md me-1"></i>Doctor
+                </span>
+              {% elif request.user.user_type == "Patient" %}
+                <span class="badge bg-success">
+                  <i class="fas fa-user me-1"></i>Patient
+                </span>
+              {% else %}
+                <span class="badge bg-secondary">
+                  <i class="fas fa-user me-1"></i>User
+                </span>
+              {% endif %}
+              <small class="text-white ms-2">{{ request.user.email }}</small>
+            </div>
             <a
               href="{% url 'userauths:sign-out' %}"
               class="btn bg-danger text-white me-2"

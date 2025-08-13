@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmation - HMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .footer {
+            background-color: #6c757d;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+        }
+        .appointment-details {
+            background-color: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .value {
+            color: #6c757d;
+        }
+        .success-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 HMS - Hospital Management System</h1>
+        <p>Appointment Confirmation</p>
+    </div>
+
+    <div class="content">
+        <h2>Dear {{ appointment.patient.full_name }},</h2>
+        
+        <p>Thank you for your payment! Your appointment has been successfully confirmed. Here are your appointment details:</p>
+
+        <div class="appointment-details">
+            <h3>📅 Appointment Details</h3>
+            
+            <div class="detail-row">
+                <span class="label">Appointment ID:</span>
+                <span class="value">#{{ appointment.appointment_id }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Service:</span>
+                <span class="value">{{ appointment.service.name }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Doctor:</span>
+                <span class="value">Dr. {{ appointment.doctor.full_name }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Patient:</span>
+                <span class="value">{{ appointment.patient.full_name }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Date & Time:</span>
+                <span class="value">{{ appointment.appointment_date|date:"F d, Y at g:i A" }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Status:</span>
+                <span class="value"><span class="success-badge">{{ appointment.status }}</span></span>
+            </div>
+
+            {% if appointment.issues %}
+            <div class="detail-row">
+                <span class="label">Reported Issues:</span>
+                <span class="value">{{ appointment.issues }}</span>
+            </div>
+            {% endif %}
+
+            {% if appointment.symptoms %}
+            <div class="detail-row">
+                <span class="label">Symptoms:</span>
+                <span class="value">{{ appointment.symptoms }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="appointment-details">
+            <h3>💰 Payment Information</h3>
+            
+            <div class="detail-row">
+                <span class="label">Billing ID:</span>
+                <span class="value">#{{ billing.billing_id }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Service Cost:</span>
+                <span class="value">${{ billing.sub_total }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Tax (5%):</span>
+                <span class="value">${{ billing.tax }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Total Amount:</span>
+                <span class="value"><strong>${{ billing.total }}</strong></span>
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Payment Status:</span>
+                <span class="value"><span class="success-badge">{{ billing.status }}</span></span>
+            </div>
+        </div>
+
+        <h3>📋 What to Expect Next:</h3>
+        <ul>
+            <li>You will receive a reminder 24 hours before your appointment</li>
+            <li>Please arrive 15 minutes early for your appointment</li>
+            <li>Bring a valid ID and any relevant medical records</li>
+            <li>If you need to reschedule, please contact us at least 24 hours in advance</li>
+        </ul>
+
+        <h3>📞 Contact Information:</h3>
+        <p>If you have any questions or need to make changes to your appointment, please contact us:</p>
+        <ul>
+            <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+            <li><strong>Email:</strong> support@hms.com</li>
+            <li><strong>Address:</strong> 123 Healthcare St, Medical City, MC 12345</li>
+        </ul>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="#" class="button">View Appointment Online</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 HMS - Hospital Management System. All rights reserved.</p>
+        <p>This is an automated message. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>

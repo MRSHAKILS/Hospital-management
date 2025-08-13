@@ -11,12 +11,12 @@
         with health checks, contactless check-in, enhanced PPE, and more.
       </p>
       <div class="d-flex align-items-center gap-2 mt-5">
-        <button class="btn btn-primary btn-lg">
+        <a href="{% url 'userauths:sign-up' %}" class="btn btn-primary btn-lg">
           Create Account <i class="fas fa-user-plus ms-1"></i>
-        </button>
-        <button class="btn btn-outline-primary btn-lg">
+        </a>
+        <a href="#ourService" class="btn btn-outline-primary btn-lg">
           Book Appointment <i class="fas fa-arrow-right ms-2"></i>
-        </button>
+        </a>
       </div>
     </div>
     <div class="col-12 col-lg-5">
@@ -37,7 +37,7 @@
 
 <section class="container mt-5">
   <div class="py-4">
-    <h2 class="">Our Services</h2>
+    <h2 class="" id="ourService">Our Services</h2>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
       reiciendis.
@@ -96,12 +96,12 @@
       </p>
 
       <div class="d-flex align-items-center gap-2 mt-5">
-        <button class="btn btn-outline-primary">
-          <i class="fas fa-video ms-1"></i> View Services
-        </button>
-        <button class="btn btn-primary">
+        <a href="#ourService" class="btn btn-outline-primary">
+          <i class="fas fa-video ms-1"></i>View Services
+        </a>
+        <a href="{% url 'userauths:sign-up' %}" class="btn btn-primary">
           Create Account <i class="fas fa-user-plus ms-1"></i>
-        </button>
+        </a>
         <button class="btn btn-primary">
           Learn More <i class="fas fa-arrow-right ms-1"></i>
         </button>

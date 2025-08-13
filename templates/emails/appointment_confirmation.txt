@@ -1,0 +1,52 @@
+HMS - Hospital Management System
+Appointment Confirmation
+
+Dear {{ appointment.patient.full_name }},
+
+Thank you for your payment! Your appointment has been successfully confirmed.
+
+APPOINTMENT DETAILS:
+=====================================
+Appointment ID: #{{ appointment.appointment_id }}
+Service: {{ appointment.service.name }}
+Doctor: Dr. {{ appointment.doctor.full_name }}
+Patient: {{ appointment.patient.full_name }}
+Date & Time: {{ appointment.appointment_date|date:"F d, Y at g:i A" }}
+Status: {{ appointment.status }}
+
+{% if appointment.issues %}
+Reported Issues: {{ appointment.issues }}
+{% endif %}
+
+{% if appointment.symptoms %}
+Symptoms: {{ appointment.symptoms }}
+{% endif %}
+
+PAYMENT INFORMATION:
+=====================================
+Billing ID: #{{ billing.billing_id }}
+Service Cost: ${{ billing.sub_total }}
+Tax (5%): ${{ billing.tax }}
+Total Amount: ${{ billing.total }}
+Payment Status: {{ billing.status }}
+
+WHAT TO EXPECT NEXT:
+=====================================
+- You will receive a reminder 24 hours before your appointment
+- Please arrive 15 minutes early for your appointment  
+- Bring a valid ID and any relevant medical records
+- If you need to reschedule, please contact us at least 24 hours in advance
+
+CONTACT INFORMATION:
+=====================================
+Phone: +1 (555) 123-4567
+Email: support@hms.com
+Address: 123 Healthcare St, Medical City, MC 12345
+
+If you have any questions or need to make changes to your appointment, please contact us using the information above.
+
+Thank you for choosing HMS!
+
+---
+© 2025 HMS - Hospital Management System. All rights reserved.
+This is an automated message. Please do not reply to this email.
