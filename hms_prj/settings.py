@@ -229,11 +229,11 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 
-# LOGIN_URL = "userauths:sign-in"
+LOGIN_URL = "userauths:sign-in"
 
-# LOGIN_REDIRECT_URL = ""
+LOGIN_REDIRECT_URL = ""
 
-# LOGOUT_REDIRECT_URL = "userauths:sign-in"
+LOGOUT_REDIRECT_URL = "userauths:sign-in"
 
 AUTH_USER_MODEL = 'userauths.User'
 
