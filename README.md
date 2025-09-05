@@ -20,50 +20,6 @@ This project uses environment variables to keep sensitive information secure. Fo
 cp .env.example .env
 ```
 
-#### 2. Configure Your Variables
-Edit `.env` with your actual values:
-
-```env
-# Django Secret Key - Generate a new one for production
-SECRET_KEY=your-secret-key-here
-
-# Debug Mode (set to False in production)  
-DEBUG=True
-
-# Email Configuration (for Gmail)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-
-# Payment Gateway Keys (optional)
-STRIPE_SECRET_KEY=your-stripe-secret-key
-STRIPE_PUBLIC_KEY=your-stripe-public-key
-PAYPAL_CLIENT_ID=your-paypal-client-id
-PAYPAL_SECRET_ID=your-paypal-secret-id
-
-# Allowed Hosts (for production)
-# ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-```
-
-#### 3. Gmail Setup for Email
-1. Enable 2-Factor Authentication in your Gmail account
-2. Generate an App Password:
-   - Go to Google Account Settings
-   - Security → 2-Step Verification → App passwords
-   - Generate password for "Mail"
-   - Use this password in `EMAIL_HOST_PASSWORD`
-
-### 🚨 Security Best Practices
-
-- ✅ **Never commit `.env` files** - They are automatically ignored by Git
-- ✅ **Use strong SECRET_KEY** - Generate new ones for each environment
-- ✅ **Set DEBUG=False** in production
-- ✅ **Use App Passwords** for Gmail, not your regular password
-- ✅ **Configure ALLOWED_HOSTS** for production deployments
-- ✅ **Regular security updates** - Keep dependencies updated
-
 ### 🛠 Installation & Setup
 
 ```bash
