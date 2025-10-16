@@ -23,8 +23,29 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-
         fields = ['full_name', 'email', 'password1', 'password2', 'user_type']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove password validators to accept weak passwords
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = 'Enter the same password as before, for verification.'
+    
+    def clean_password1(self):
+        # Override to skip password validation
+        password1 = self.cleaned_data.get('password1')
+        return password1
+    
+    def _post_clean(self):
+        # Override to skip password validation
+        super(UserCreationForm, self)._post_clean()
+        password1 = self.cleaned_data.get('password1')
+        if password1:
+            try:
+                # Skip password validation
+                pass
+            except Exception:
+                pass
 
 
 class LoginForm(forms.Form):

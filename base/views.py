@@ -102,7 +102,6 @@ def book_appointment(request, service_id, doctor_id):
 
         # Get the selected slot and create appointment datetime
         from datetime import datetime
-        from doctor import models as doctor_models
         
         if slot_id:
             slot = doctor_models.AppointmentSlot.objects.get(id=slot_id)
