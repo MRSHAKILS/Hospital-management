@@ -26,4 +26,22 @@ urlpatterns = [
     path("notifications/", views.notifications, name="notifications"),
     path("mark_noti_seen/<id>/", views.mark_noti_seen, name="mark_noti_seen"),
     path("profile/", views.profile, name="profile"),
+    
+    # Availability Management
+    path("availability/", views.manage_availability, name="manage_availability"),
+    
+    # Slot Management
+    path("slots/", views.manage_slots, name="manage_slots"),
+    path("slots/add/", views.add_slot, name="add_slot"),
+    path("slots/edit/<int:slot_id>/", views.edit_slot, name="edit_slot"),
+    path("slots/delete/<int:slot_id>/", views.delete_slot, name="delete_slot"),
+    path("slots/toggle/<int:slot_id>/", views.toggle_slot, name="toggle_slot"),
+    
+    # Days Off Management
+    path("days-off/", views.manage_days_off, name="manage_days_off"),
+    path("days-off/add/", views.add_day_off, name="add_day_off"),
+    path("days-off/delete/<int:dayoff_id>/", views.delete_day_off, name="delete_day_off"),
+    
+    # API Endpoints
+    path("api/slots/<int:doctor_id>/<str:date_str>/", views.get_available_slots, name="get_available_slots"),
 ]

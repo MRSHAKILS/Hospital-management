@@ -56,9 +56,90 @@
             <label for="name" class="mb-2">Symptoms</label>
             <textarea name="symptoms" class="form-control" id=""></textarea>
         </div>
+        
+        <!-- Appointment Date and Time Selection -->
+        <div class="col-lg-6 mb-3">
+            <label for="appointment_date" class="mb-2">Appointment Date</label>
+            <input type="date" name="appointment_date" id="appointment_date" class="form-control" 
+                   min="{% now 'Y-m-d' %}" required />
+            <small class="text-muted">Select a date to see available time slots</small>
+        </div>
+        
+        <div class="col-lg-6 mb-3">
+            <label for="slot_id" class="mb-2">Available Time Slots</label>
+            <select name="slot_id" id="slot_id" class="form-select" required>
+                <option value="">Select a date first</option>
+            </select>
+            <small class="text-muted" id="slot-message"></small>
+        </div>
+        
         <div class="col-lg-12 mb-3">
-            <button type="submit" class="btn btn-primary w-100">Continue <i class="fas fa-arrow-right ms-2"></i></button>
+            <button type="submit" class="btn btn-primary w-100" id="submit-btn" disabled>
+                Continue <i class="fas fa-arrow-right ms-2"></i>
+            </button>
         </div>
     </form>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('appointment_date');
+    const slotSelect = document.getElementById('slot_id');
+    const slotMessage = document.getElementById('slot-message');
+    const submitBtn = document.getElementById('submit-btn');
+    const doctorId = {{ doctor.id }};
+    
+    dateInput.addEventListener('change', function() {
+        const selectedDate = this.value;
+        
+        if (!selectedDate) {
+            slotSelect.innerHTML = '<option value="">Select a date first</option>';
+            slotMessage.textContent = '';
+            submitBtn.disabled = true;
+            return;
+        }
+        
+        // Show loading state
+        slotSelect.innerHTML = '<option value="">Loading available slots...</option>';
+        slotSelect.disabled = true;
+        submitBtn.disabled = true;
+        slotMessage.textContent = '';
+        
+        // Fetch available slots
+        fetch(`/doctor/api/slots/${doctorId}/${selectedDate}/`)
+            .then(response => response.json())
+            .then(data => {
+                slotSelect.disabled = false;
+                
+                if (data.success && data.slots.length > 0) {
+                    slotSelect.innerHTML = '<option value="">-- Select a time slot --</option>';
+                    data.slots.forEach(slot => {
+                        const option = document.createElement('option');
+                        option.value = slot.id;
+                        option.textContent = slot.display;
+                        slotSelect.appendChild(option);
+                    });
+                    slotMessage.textContent = `${data.slots.length} slot(s) available`;
+                    slotMessage.className = 'text-success';
+                } else {
+                    slotSelect.innerHTML = '<option value="">No slots available</option>';
+                    slotMessage.textContent = data.message || 'No available time slots for this date';
+                    slotMessage.className = 'text-danger';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching slots:', error);
+                slotSelect.innerHTML = '<option value="">Error loading slots</option>';
+                slotSelect.disabled = false;
+                slotMessage.textContent = 'Failed to load time slots. Please try again.';
+                slotMessage.className = 'text-danger';
+            });
+    });
+    
+    slotSelect.addEventListener('change', function() {
+        submitBtn.disabled = !this.value;
+    });
+});
+</script>
+
 {% endblock content %}

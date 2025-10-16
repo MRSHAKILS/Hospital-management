@@ -1,0 +1,118 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% include 'doctor/sidebar.html' %}
+            
+            <div class="col-lg-9 col-md-8 col-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="fas fa-calendar-times"></i> Manage Days Off</h4>
+                        <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addDayOffModal">
+                            <i class="fas fa-plus"></i> Add Day Off
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        {% if days_off %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Reason</th>
+                                            <th>Appointments Cancelled</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for day_off in days_off %}
+                                        <tr>
+                                            <td>{{ day_off.date|date:"D, M d, Y" }}</td>
+                                            <td>{{ day_off.reason|default:"No reason provided" }}</td>
+                                            <td>
+                                                {% if day_off.cancel_existing_appointments %}
+                                                    <span class="badge bg-warning">Yes</span>
+                                                {% else %}
+                                                    <span class="badge bg-info">No</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'doctor:delete_day_off' day_off.id %}" 
+                                                   class="btn btn-sm btn-danger"
+                                                   onclick="return confirm('Are you sure you want to remove this day off?')">
+                                                    <i class="fas fa-trash"></i> Remove
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> 
+                                You don't have any upcoming days off scheduled.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Day Off Modal -->
+<div class="modal fade" id="addDayOffModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'doctor:add_day_off' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Day Off</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Date</label>
+                        <input type="date" name="date" class="form-control" min="{% now 'Y-m-d' %}" required>
+                        <small class="text-muted">Select the date you want to take off</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason (Optional)</label>
+                        <textarea name="reason" class="form-control" rows="2" 
+                                  placeholder="e.g., Conference, Personal leave, etc."></textarea>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" 
+                               name="cancel_appointments" id="cancel_appointments">
+                        <label class="form-check-label" for="cancel_appointments">
+                            Cancel all existing appointments on this date
+                        </label>
+                        <div class="form-text text-danger">
+                            <i class="fas fa-exclamation-triangle"></i> 
+                            Warning: This will automatically cancel all scheduled appointments for this date 
+                            and notify patients.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Day Off</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

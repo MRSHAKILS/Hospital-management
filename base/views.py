@@ -88,6 +88,8 @@ def book_appointment(request, service_id, doctor_id):
         dob = request.POST.get("dob")
         issues = request.POST.get("issues")
         symptoms = request.POST.get("symptoms")
+        appointment_date = request.POST.get("appointment_date")
+        slot_id = request.POST.get("slot_id")
 
         # Update patient bio data
         patient.full_name = full_name
@@ -98,14 +100,27 @@ def book_appointment(request, service_id, doctor_id):
         patient.dob = dob
         patient.save()
 
+        # Get the selected slot and create appointment datetime
+        from datetime import datetime
+        from doctor import models as doctor_models
+        
+        if slot_id:
+            slot = doctor_models.AppointmentSlot.objects.get(id=slot_id)
+            date_obj = datetime.strptime(appointment_date, '%Y-%m-%d').date()
+            appointment_datetime = datetime.combine(date_obj, slot.start_time)
+        else:
+            # Fallback to old method if no slot selected
+            appointment_datetime = doctor.next_available_appointment_date
+
         # Create appointment object
         appointment = base_models.Appointment.objects.create(
             service=service,
             doctor=doctor,
             patient=patient,
-            appointment_date=doctor.next_available_appointment_date,
+            appointment_date=appointment_datetime,
             issues=issues,
             symptoms=symptoms,
+            status='Pending'
         )
 
         # Create a billing objects

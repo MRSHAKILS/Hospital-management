@@ -23,7 +23,15 @@
                                 <li class="nav-item">
                                     <a class="dropdown-item nav-link" href="{% url 'doctor:appointments' %}"><i class="fas fa-calendar"></i> Appointment</a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="dropdown-item nav-link" href="{% url 'doctor:manage_availability' %}"><i class="fas fa-calendar-week"></i> Manage Availability</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="dropdown-item nav-link" href="{% url 'doctor:manage_slots' %}"><i class="fas fa-clock"></i> Manage Time Slots</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="dropdown-item nav-link" href="{% url 'doctor:manage_days_off' %}"><i class="fas fa-calendar-times"></i> Days Off</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="dropdown-item nav-link" href="{% url 'doctor:payments' %}"><i class="fas fa-credit-card"></i> Payments</a>
                                 </li>
